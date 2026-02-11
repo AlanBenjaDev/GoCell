@@ -60,7 +60,7 @@ export default function ProductDetail() {
       toast.error("Iniciá sesión para comprar", { style: { background: '#1a1a1a', color: '#fff' } });
       return;
     }
-    const res = await fetch(`http://localhost:4000/cart/add/${producto_id}`, {
+    const res = await fetch(`${API_URL}/cart/add/${producto_id}`, {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
       body: JSON.stringify({ producto_id, cantidad: 1 }),

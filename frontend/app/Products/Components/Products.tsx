@@ -88,7 +88,8 @@ export default function ProductList() {
                 <div className="flex items-baseline gap-1">
                     <span className="text-emerald-500 text-xs font-bold">$</span>
                     <span className="text-2xl font-black text-white tracking-tighter">
-                        {product.precio.toLocaleString('es-AR')}
+                 {product.precio.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+
                     </span>
                 </div>
 

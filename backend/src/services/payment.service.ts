@@ -19,9 +19,9 @@ export const createPreferenceService = async ({
   body: {
     items: [{ id: title, title, unit_price, quantity }],
     back_urls: {
-      success: "http://localhost:4000/success",
-      failure: "http://localhost:4000/failure",
-      pending: "http://localhost:4000/pending"
+      success: "https://go-cell-racf.vercel.app/success",
+      failure: "https://go-cell-racf.vercel.app/failure",
+      pending: "https://go-cell-racf.vercel.app/pending"
     },
     auto_return: "approved", // redirige automáticamente al success
     binary_mode: true        // opcional: solo pago aprobado o rechazado
