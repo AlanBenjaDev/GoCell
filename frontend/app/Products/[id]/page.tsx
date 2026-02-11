@@ -25,6 +25,13 @@ export default function ProductDetail() {
   const [loading, setLoading] = useState(true);
   const [preferenceId, setPreferenceId] = useState<string | null>(null);
   const [token, setToken] = useState<string | null>(null);
+  const [envio, setEnvio] = useState({
+  ciudad: "",
+  direccion: "",
+  codigo_postal: "",
+  tipo_envio: "correo"
+});
+
 
  const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
@@ -70,19 +77,45 @@ export default function ProductDetail() {
     else toast.error("Error al agregar");
   };
 
-  const handleCreatePreference = async () => {
-    try {
-      const res = await fetch(`${API_URL}/payments/create-preference`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title: product.producto, unit_price: product.precio, quantity: 1 }),
-      });
-      const data = await res.json();
-      setPreferenceId(data.preferenceId);
-    } catch (err) {
-      toast.error("Error con Mercado Pago");
-    }
-  };
+const handleCreatePreference = async () => {
+  if (!token) {
+    toast.error("Iniciá sesión para comprar");
+    return;
+  }
+
+  if (!envio.ciudad || !envio.direccion || !envio.codigo_postal) {
+    toast.error("Completá los datos de envío");
+    return;
+  }
+
+  try {
+    const res = await fetch(`${API_URL}/checkout`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        product_id: product.id,
+        quantity: 1,
+        envio,
+      }),
+    });
+
+    if (!res.ok) throw new Error();
+
+    const data = await res.json();
+    setPreferenceId(data.preferenceId);
+  } catch (error) {
+    toast.error("Error al iniciar el pago");
+  }
+};
+
+const handleEnvioChange = (field: string, value: string) => {
+  setEnvio((prev) => ({ ...prev, [field]: value }));
+};
+
+
 
   return (
     <main className="min-h-screen bg-black text-white pb-20">
@@ -126,6 +159,26 @@ export default function ProductDetail() {
               </div>
             )}
           </div>
+          <div className="bg-[#0a0a0a] border border-emerald-900/30 rounded-2xl p-6 mb-6">
+  <h3 className="text-emerald-500 font-bold mb-4 uppercase text-sm tracking-widest">Datos de Envío</h3>
+  <div className="grid gap-3">
+    <input 
+      type="text" placeholder="Ciudad" 
+      className="bg-black border border-emerald-900/50 p-3 rounded-lg focus:outline-none focus:border-emerald-500"
+     onChange={(e) => handleEnvioChange("ciudad", e.target.value)}
+    />
+    <input 
+      type="text" placeholder="Dirección" 
+      className="bg-black border border-emerald-900/50 p-3 rounded-lg focus:outline-none focus:border-emerald-500"
+      onChange={(e) => handleEnvioChange("direccion", e.target.value)}
+    />
+    <input 
+      type="text" placeholder="Código Postal" 
+      className="bg-black border border-emerald-900/50 p-3 rounded-lg focus:outline-none focus:border-emerald-500"
+      onChange={(e) => handleEnvioChange("codigo_postal", e.target.value)}
+    />
+  </div>
+</div>
 
           <div className="flex flex-col gap-4">
             <button

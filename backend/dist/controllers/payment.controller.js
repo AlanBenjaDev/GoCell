@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createPreferenceController = void 0;
+exports.checkoutController = exports.createPreferenceController = void 0;
 const payment_service_1 = require("../services/payment.service");
 const createPreferenceController = async (req, res) => {
     try {
@@ -25,3 +25,26 @@ const createPreferenceController = async (req, res) => {
     ;
 };
 exports.createPreferenceController = createPreferenceController;
+const checkoutController = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const { product_id, quantity, envio } = req.body;
+        if (!product_id || !quantity || !envio) {
+            return res.status(400).json({ message: "Datos incompletos" });
+        }
+        const result = await (0, payment_service_1.checkoutService)({
+            userId,
+            product_id,
+            quantity,
+            envio
+        });
+        res.status(200).json({
+            preferenceId: result.preferenceId
+        });
+    }
+    catch (error) {
+        console.error("Error en checkout:", error);
+        res.status(500).json({ message: "Error en el checkout" });
+    }
+};
+exports.checkoutController = checkoutController;

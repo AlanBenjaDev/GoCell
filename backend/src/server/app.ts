@@ -5,6 +5,7 @@ import cartRouter from "../routes/cart.routes";
 import cors from "cors";
 import { register } from "module";
 import paymentRoutes from "../routes/payment.routes";
+import { mercadopagoWebhook } from "../controllers/webhook.controller";
 const app = express();
 
 
@@ -33,6 +34,11 @@ app.use("/user", usuariosRouter);
 app.use("/products", productsRouter);
 app.use("/cart", cartRouter);
 app.use("/payments", paymentRoutes);
+app.post(
+  "/api/webhook/mercadopago",
+  express.json(),
+  mercadopagoWebhook
+);
 
 
 export default app
