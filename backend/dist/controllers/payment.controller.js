@@ -27,7 +27,11 @@ const createPreferenceController = async (req, res) => {
 exports.createPreferenceController = createPreferenceController;
 const checkoutController = async (req, res) => {
     try {
-        const userId = req.user.id;
+        if (!req.user?.id) {
+            return res.status(401).json({ message: "Usuario no autenticado" });
+        }
+        const userId = Number(req.user.id);
+        console.log("REQ.USER 👉", req.user);
         const { product_id, quantity, envio } = req.body;
         if (!product_id || !quantity || !envio) {
             return res.status(400).json({ message: "Datos incompletos" });
