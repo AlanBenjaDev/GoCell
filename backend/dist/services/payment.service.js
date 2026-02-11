@@ -49,7 +49,7 @@ const checkoutService = async ({ userId, product_id, quantity, envio }) => {
     const pedido = await pedidos_1.pedidosRepo.create({
         usuario_id: userId,
         total,
-        estado: "pendiente_pago"
+        estado: "pendiente"
     });
     await envios_1.enviosRepo.create({
         pedido_id: pedido.id,
