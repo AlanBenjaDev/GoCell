@@ -9,6 +9,7 @@ const mp_1 = require("../config/mp");
 const products_1 = require("../repositories/products");
 const pedidos_1 = require("../repositories/pedidos");
 const envios_1 = require("../repositories/envios");
+const pedidosDetalles_1 = require("../repositories/pedidosDetalles");
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const FRONTEND_URL = process.env.FRONTEND_URL || "";
@@ -57,6 +58,12 @@ const checkoutService = async ({ userId, product_id, quantity, envio }) => {
         direccion: envio.direccion,
         codigo_postal: envio.codigo_postal,
         tipo_envio: envio.tipo_envio
+    });
+    await pedidosDetalles_1.pedidosDetalleRepo.create({
+        pedido_id: pedido.id,
+        producto_id: product_id,
+        cantidad: quantity,
+        precio_unitario: producto.precio
     });
     const preferenceId = await (0, exports.createPreferenceService)({
         title: producto.nombre,

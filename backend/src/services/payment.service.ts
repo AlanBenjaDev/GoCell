@@ -3,6 +3,7 @@ import { mpClient } from "../config/mp";
 import { productosRepo } from "../repositories/products";
 import { pedidosRepo } from "../repositories/pedidos";
 import { enviosRepo } from "../repositories/envios";
+import { pedidosDetalleRepo } from "../repositories/pedidosDetalles";
 
 import dotenv from "dotenv";
 
@@ -83,6 +84,14 @@ export const checkoutService = async ({
     codigo_postal: envio.codigo_postal,
     tipo_envio: envio.tipo_envio
   });
+
+await pedidosDetalleRepo.create({
+  pedido_id: pedido.id,
+  producto_id: product_id,
+  cantidad: quantity,
+  precio_unitario: producto.precio
+});
+
 
   const preferenceId = await createPreferenceService({
     title: producto.nombre,
