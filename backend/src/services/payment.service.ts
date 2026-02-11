@@ -69,11 +69,12 @@ export const checkoutService = async ({
 
   const total = producto.precio * quantity;
 
-  const pedido = await pedidosRepo.create({
-    usuarioId: userId,
-    total,
-    estado: "pendiente_pago"
-  });
+ const pedido = await pedidosRepo.create({
+  usuario_id: userId, 
+  total,
+  estado: "pendiente_pago"
+});
+
 
   await enviosRepo.create({
     pedido_id: pedido.id,
