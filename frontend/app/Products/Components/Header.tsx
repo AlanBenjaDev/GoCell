@@ -13,26 +13,30 @@ export default function Header() {
 
 
 useEffect(() => {
-  const token = localStorage.getItem("accessToken");
-  const storedUser = localStorage.getItem("user");
-
-  if (token && storedUser) {
-    try {
-      const user = JSON.parse(storedUser);
-      const adminStatus = user.role === "admin"; // seguro
-      setIsLoggedIn(true);
-      setIsAdmin(adminStatus);
-      console.log("User role:", user.role, "isAdmin:", adminStatus);
-    } catch (error) {
-      console.error("Error al parsear user:", error);
+  const checkLogin = () => {
+    const token = localStorage.getItem("accessToken");
+    const storedUser = localStorage.getItem("user");
+    if (token && storedUser) {
+      try {
+        const user = JSON.parse(storedUser);
+        setIsLoggedIn(true);
+        setIsAdmin(user.role === "admin");
+      } catch {
+        setIsLoggedIn(false);
+        setIsAdmin(false);
+      }
+    } else {
       setIsLoggedIn(false);
       setIsAdmin(false);
     }
-  } else {
-    setIsLoggedIn(false);
-    setIsAdmin(false);
-  }
+  };
+
+  checkLogin(); // al montar
+  window.addEventListener("storage", checkLogin); // si cambia en otra pestaña
+
+  return () => window.removeEventListener("storage", checkLogin);
 }, []);
+
 
 
   const handleLogout = () => {
