@@ -10,7 +10,15 @@ export const createPreferenceController = async (
 
     if (!title || !unit_price || !quantity) {
       return res.status(400).json({ message: "Datos inválidos" });
+
+
+
     }
+
+    if (isNaN(Number(unit_price)) || isNaN(Number(quantity))) {
+  throw new Error("unit_price y quantity deben ser números válidos");
+}
+
 
     const preferenceId = await createPreferenceService({
       title,

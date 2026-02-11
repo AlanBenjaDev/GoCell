@@ -38,8 +38,8 @@ export const createPreferenceService = async ({
         {
           id: String(pedidoId),
           title,
-          unit_price,
-          quantity,
+          unit_price: Number(unit_price),
+           quantity: Number(quantity),
           currency_id: "ARS"
         }
       ],

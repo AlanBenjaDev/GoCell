@@ -8,6 +8,9 @@ const createPreferenceController = async (req, res) => {
         if (!title || !unit_price || !quantity) {
             return res.status(400).json({ message: "Datos inválidos" });
         }
+        if (isNaN(Number(unit_price)) || isNaN(Number(quantity))) {
+            throw new Error("unit_price y quantity deben ser números válidos");
+        }
         const preferenceId = await (0, payment_service_1.createPreferenceService)({
             title,
             unit_price: Number(unit_price),
