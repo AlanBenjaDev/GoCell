@@ -26,13 +26,15 @@ export default function ProductDetail() {
   const [preferenceId, setPreferenceId] = useState<string | null>(null);
   const [token, setToken] = useState<string | null>(null);
 
+ const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+
   useEffect(() => {
     const storedToken = localStorage.getItem("accessToken");
     setToken(storedToken);
     
     const fetchProduct = async () => {
       try {
-        const res = await fetch(`http://localhost:4000/products/products/${id}`);
+        const res = await fetch(`${API_URL}/products/products/${id}`);
         if (!res.ok) throw new Error(`Error HTTP ${res.status}`);
         const data = await res.json();
         setProduct(data);
@@ -70,7 +72,7 @@ export default function ProductDetail() {
 
   const handleCreatePreference = async () => {
     try {
-      const res = await fetch("http://localhost:4000/payments/create-preference", {
+      const res = await fetch(`${API_URL}/payments/create-preference`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ title: product.producto, unit_price: product.precio, quantity: 1 }),
