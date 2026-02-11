@@ -10,6 +10,9 @@ export default function AddProduct() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
 
+
+  const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+
   const onSubmit = async (data: any) => {
   if (!selectedFile) {
     toast.error("Debes cargar una imagen del producto");
@@ -20,21 +23,20 @@ export default function AddProduct() {
   const token = localStorage.getItem("accessToken");
   const formData = new FormData();
 
-  // Coincidir los nombres con lo que espera Multer
   formData.append("producto", data.nombre);
   formData.append("descripcion", data.descripcion);
   formData.append("precio", data.precio);
   formData.append("stock", data.stock);
   formData.append("categoria", data.categoria);
- formData.append("imagen", selectedFile); // debe coincidir con upload.single("imagen")
+ formData.append("imagen", selectedFile); 
 
   try {
-    const res = await fetch("http://localhost:4000/products/create/product", {
+    const res = await fetch(`${API_URL}/products/create/product`, {
   method: "POST",
   headers: {
-    Authorization: `Bearer ${token}`, // solo el token, NO Content-Type
+    Authorization: `Bearer ${token}`, 
   },
-  body: formData, // Multer detecta multipart/form-data automáticamente
+  body: formData, 
 });
 
     const result = await res.json();
@@ -61,7 +63,6 @@ export default function AddProduct() {
         onSubmit={handleSubmit(onSubmit)}
         className="max-w-2xl mx-auto p-8 bg-[#0a0a0a] rounded-[2rem] shadow-2xl flex flex-col gap-6 border border-emerald-900/30 relative overflow-hidden"
       >
-        {/* Decoración de fondo */}
         <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 blur-[50px] rounded-full" />
         
         <div className="flex items-center gap-3 mb-4">
@@ -86,7 +87,6 @@ export default function AddProduct() {
             />
           </div>
 
-          {/* Categoría */}
           <div className="flex flex-col gap-2">
             <label className="text-[10px] font-black uppercase tracking-widest text-emerald-500/70 flex items-center gap-2">
               <Layers size={12} /> Categoría Tech
@@ -102,7 +102,6 @@ export default function AddProduct() {
             </select>
           </div>
 
-          {/* Precio */}
           <div className="flex flex-col gap-2">
             <label className="text-[10px] font-black uppercase tracking-widest text-emerald-500/70 flex items-center gap-2">
               <DollarSign size={12} /> Precio de Venta
@@ -115,7 +114,6 @@ export default function AddProduct() {
             />
           </div>
 
-          {/* Stock */}
           <div className="flex flex-col gap-2">
             <label className="text-[10px] font-black uppercase tracking-widest text-emerald-500/70 flex items-center gap-2">
               <Box size={12} /> Unidades Disponibles
@@ -129,7 +127,6 @@ export default function AddProduct() {
           </div>
         </div>
 
-        {/* Descripción */}
         <div className="flex flex-col gap-2">
           <label className="text-[10px] font-black uppercase tracking-widest text-emerald-500/70 flex items-center gap-2">
             <AlignLeft size={12} /> Especificaciones Técnicas
@@ -142,7 +139,6 @@ export default function AddProduct() {
           />
         </div>
 
-        {/* Imagen */}
         <div className="flex flex-col gap-2">
           <label className="text-[10px] font-black uppercase tracking-widest text-emerald-500/70 mb-1">Galería de Producto</label>
           <div className="bg-neutral-900 border-2 border-dashed border-emerald-900/30 rounded-2xl p-4 hover:border-emerald-500/50 transition-colors">

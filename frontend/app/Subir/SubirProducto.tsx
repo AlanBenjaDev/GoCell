@@ -17,7 +17,7 @@ export default function FileUpload({ onFileSelect }: { onFileSelect: (file: File
 
   const removeImage = () => {
     setPreview(null);
-    // Podés resetear el input si es necesario
+    
   };
 
   return (
@@ -49,7 +49,6 @@ export default function FileUpload({ onFileSelect }: { onFileSelect: (file: File
 
         </label>
       ) : (
-        /* Vista previa con estilo de celda de energía */
         <div className="relative w-full h-48 bg-neutral-900 rounded-3xl border border-emerald-500/30 overflow-hidden group">
           <img 
             src={preview} 

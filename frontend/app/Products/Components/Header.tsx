@@ -20,7 +20,7 @@ useEffect(() => {
         setIsLoggedIn(true);
         setIsAdmin(user.role === "admin");
       } else {
-        setIsLoggedIn(true); // usuario logueado pero no admin
+        setIsLoggedIn(true); 
         setIsAdmin(false);
       }
     } catch (error) {
