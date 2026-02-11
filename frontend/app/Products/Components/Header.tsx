@@ -20,7 +20,7 @@ export default function Header() {
       }
     };
 
-    checkLogin(); // al montar
+    checkLogin(); 
     window.addEventListener("storage", checkLogin); // si cambia en otra pestaña
 
     return () => window.removeEventListener("storage", checkLogin);
@@ -100,7 +100,7 @@ export default function Header() {
           {["Celulares", "Auriculares", "Cargadores", "Accesorios", "Ofertas"].map((cat) => (
             <Link
               key={cat}
-              href={`/category/${cat.toLowerCase()}`}
+              href={`/Categorias/${cat.toLowerCase()}`}
               className="whitespace-nowrap text-[11px] text-gray-500 uppercase tracking-[0.2em] font-black hover:text-emerald-400 transition-colors"
             >
               {cat}
