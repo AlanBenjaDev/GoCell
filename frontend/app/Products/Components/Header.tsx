@@ -1,43 +1,30 @@
 "use client";
 
-import { Search, ShoppingCart, LayoutDashboard, LogOut, User } from "lucide-react";
+import { Search, ShoppingCart, LogOut } from "lucide-react";
 import { useState, useEffect } from "react";
-import Link from "next/link"; 
+import Link from "next/link";
 
 export default function Header() {
   const [query, setQuery] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false); 
 
+  useEffect(() => {
+    const checkLogin = () => {
+      const token = localStorage.getItem("accessToken");
+      const storedUser = localStorage.getItem("user");
 
-
-
-useEffect(() => {
-  const checkLogin = () => {
-    const token = localStorage.getItem("accessToken");
-    const storedUser = localStorage.getItem("user");
-    if (token && storedUser) {
-      try {
-        const user = JSON.parse(storedUser);
+      if (token && storedUser) {
         setIsLoggedIn(true);
-        setIsAdmin(user.role === "admin");
-      } catch {
+      } else {
         setIsLoggedIn(false);
-        setIsAdmin(false);
       }
-    } else {
-      setIsLoggedIn(false);
-      setIsAdmin(false);
-    }
-  };
+    };
 
-  checkLogin(); // al montar
-  window.addEventListener("storage", checkLogin); // si cambia en otra pestaña
+    checkLogin(); // al montar
+    window.addEventListener("storage", checkLogin); // si cambia en otra pestaña
 
-  return () => window.removeEventListener("storage", checkLogin);
-}, []);
-
-
+    return () => window.removeEventListener("storage", checkLogin);
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
@@ -54,9 +41,11 @@ useEffect(() => {
   return (
     <header className="bg-[#051101] border-b border-emerald-900/30 sticky top-0 z-50">
       <div className="flex flex-col md:flex-row items-center justify-between max-w-7xl mx-auto px-4 py-4 gap-4 md:gap-0">
-        
-        <Link href="/" className="text-2xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-green-600 hover:opacity-80 transition-opacity">
-         GO CELL
+        <Link
+          href="/"
+          className="text-2xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-green-600 hover:opacity-80 transition-opacity"
+        >
+          GO CELL
         </Link>
 
         <form onSubmit={handleSearch} className="flex w-full md:max-w-md items-center group">
@@ -78,26 +67,6 @@ useEffect(() => {
         <div className="flex items-center gap-4 text-gray-400 text-sm font-bold">
           {isLoggedIn ? (
             <>
-              {isAdmin && (
-                <Link 
-                  href="/Dashboard" 
-                  className="flex items-center gap-2 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-4 py-2 rounded-full hover:bg-emerald-500 hover:text-black transition-all text-[10px] uppercase tracking-widest"
-                >
-                  <LayoutDashboard size={14} />
-                  Panel Dueño
-                </Link>
-              )}
-               {isAdmin && (
-                <Link 
-                  href="/Subir" 
-                  className="flex items-center gap-2 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-4 py-2 rounded-full hover:bg-emerald-500 hover:text-black transition-all text-[10px] uppercase tracking-widest"
-                >
-                  <LayoutDashboard size={14} />
-                 Agregar producto
-                </Link>
-              )}
-
-
               <Link href="/Carrito" className="hover:text-emerald-400 transition-colors flex items-center gap-1">
                 <ShoppingCart size={20} />
                 <span className="hidden md:inline">Carrito</span>
@@ -115,7 +84,10 @@ useEffect(() => {
               <Link href="/Login" className="hover:text-emerald-400 transition-colors uppercase text-xs tracking-widest">
                 Ingresá
               </Link>
-              <Link href="/Register" className="bg-white/5 border border-white/10 px-4 py-2 rounded-xl hover:bg-white/10 transition-all text-xs uppercase tracking-widest text-white">
+              <Link
+                href="/Register"
+                className="bg-white/5 border border-white/10 px-4 py-2 rounded-xl hover:bg-white/10 transition-all text-xs uppercase tracking-widest text-white"
+              >
                 Registrate
               </Link>
             </div>
