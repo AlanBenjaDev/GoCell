@@ -89,7 +89,7 @@ const handleCreatePreference = async () => {
   }
 
   try {
-    const res = await fetch(`${API_URL}/checkout`, {
+    const res = await fetch(`${API_URL}/payments/checkout`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
