@@ -35,8 +35,6 @@ export default function Login() {
       if (res.ok) {
           localStorage.setItem("accessToken", result.token);
   
-  // IMPORTANTE: Guardamos el objeto user. 
-  // Si tu backend devuelve result.user usá ese, sino crealo así:
   const userData = result.user || { email: data.email, role: "admin" }; 
   localStorage.setItem("user", JSON.stringify(userData));
 
