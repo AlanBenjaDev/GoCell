@@ -47,7 +47,7 @@ const checkoutService = async ({ userId, product_id, quantity, envio }) => {
         throw new Error("Producto no existe");
     const total = producto.precio * quantity;
     const pedido = await pedidos_1.pedidosRepo.create({
-        user_id: userId,
+        usuarioId: userId,
         total,
         estado: "pendiente_pago"
     });

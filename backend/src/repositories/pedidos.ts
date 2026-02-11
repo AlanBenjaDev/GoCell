@@ -2,16 +2,16 @@ import db from "../config/db";
 
 export const pedidosRepo = {
 
-  create: async ({ user_id, total, estado }: any) => {
+  create: async ({ usuario_id, total, estado }: any) => {
     const [result]: any = await db.query(
-      `INSERT INTO pedidos (user_id, total, estado)
+      `INSERT INTO pedidos (usuario_id, total, estado)
        VALUES (?, ?, ?)`,
-      [user_id, total, estado]
+      [usuario_id, total, estado]
     );
 
     return {
       id: result.insertId,
-      user_id,
+      usuario_id,
       total,
       estado
     };

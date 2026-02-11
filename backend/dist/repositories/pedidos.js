@@ -6,12 +6,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.pedidosRepo = void 0;
 const db_1 = __importDefault(require("../config/db"));
 exports.pedidosRepo = {
-    create: async ({ user_id, total, estado }) => {
-        const [result] = await db_1.default.query(`INSERT INTO pedidos (user_id, total, estado)
-       VALUES (?, ?, ?)`, [user_id, total, estado]);
+    create: async ({ usuario_id, total, estado }) => {
+        const [result] = await db_1.default.query(`INSERT INTO pedidos (usuario_id, total, estado)
+       VALUES (?, ?, ?)`, [usuario_id, total, estado]);
         return {
             id: result.insertId,
-            user_id,
+            usuario_id,
             total,
             estado
         };
