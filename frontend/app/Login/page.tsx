@@ -4,12 +4,12 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
-import { Lock, Mail, Loader2 } from "lucide-react"; // Iconos para el MVP
+import { Lock, Mail, Loader2 } from "lucide-react"; 
 
 
 
 type FormData = {
-  email: string; // Cambiado de 'user' a 'email' para coincidir con tu JSON
+  email: string; 
   password: string;
 };
 
@@ -35,7 +35,7 @@ export default function Login() {
       if (res.ok) {
           localStorage.setItem("accessToken", result.token);
   
-  const userData = result.user || { email: data.email, role: "admin" }; 
+  const userData = result.user  
   localStorage.setItem("user", JSON.stringify(userData));
 
    toast.success("¡Bienvenido de nuevo!", {
