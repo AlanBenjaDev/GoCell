@@ -7,14 +7,20 @@ const createPreferenceService = async ({ title, unit_price, quantity }) => {
     const preference = new mercadopago_1.Preference(mp_1.mpClient);
     const response = await preference.create({
         body: {
-            items: [{ id: title, title, unit_price, quantity }],
+            items: [
+                {
+                    id: title,
+                    title,
+                    unit_price,
+                    quantity,
+                    currency_id: "ARS"
+                }
+            ],
             back_urls: {
-                success: "http://localhost:4000/success",
-                failure: "http://localhost:4000/failure",
-                pending: "http://localhost:4000/pending"
-            },
-            auto_return: "approved", // redirige automáticamente al success
-            binary_mode: true // opcional: solo pago aprobado o rechazado
+                success: "https://go-cell-racf.vercel.app/success",
+                failure: "https://go-cell-racf.vercel.app/failure",
+                pending: "https://go-cell-racf.vercel.app/pending"
+            }
         }
     });
     return response.id;
