@@ -21,7 +21,9 @@ export const createPreferenceController = async (
     res.json({ preferenceId });
 
   } catch (error: any) {
-    console.error("Error MercadoPago:", error);
-    res.status(500).json({ message: "Error creando preferencia" });
-  }
-};
+  console.error("Detalle MP:", error.apiResponse?.body || error);
+  res.status(500).json({ 
+    message: "Error en MP", 
+    detail: error.apiResponse?.body?.cause || error.message 
+  });
+};}
