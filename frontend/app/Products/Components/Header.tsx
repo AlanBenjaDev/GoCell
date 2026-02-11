@@ -13,16 +13,21 @@ useEffect(() => {
   const token = localStorage.getItem("accessToken");
   const storedUser = localStorage.getItem("user");
 
-  if (token && storedUser && storedUser !== "undefined") {
+  if (token && storedUser) {
     try {
       const user = JSON.parse(storedUser);
       setIsLoggedIn(true);
-      setIsAdmin(user.role === "admin"); // Esto asigna si es admin
+      setIsAdmin(user?.role === "admin"); 
+      console.log("User from localStorage:", storedUser);
+
     } catch (error) {
       console.error("Error al parsear user:", error);
+      setIsLoggedIn(false);
+      setIsAdmin(false);
     }
   }
 }, []);
+
 
 
   const handleLogout = () => {
