@@ -30,10 +30,10 @@ const response = await preference.create({
       success: "https://go-cell-racf.vercel.app/success",
       failure: "https://go-cell-racf.vercel.app/failure",
       pending: "https://go-cell-racf.vercel.app/pending"
-    },
-    auto_return: "approved"
+    }
   }
 });
+
 
     
 
